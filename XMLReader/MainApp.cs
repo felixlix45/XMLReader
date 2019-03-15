@@ -42,7 +42,7 @@ namespace XMLReader
             if(openFile.ShowDialog() == DialogResult.OK)
             {
 
-                flag = 1;
+                
                 path = openFile.FileName;
                 bindGrid();
                 //xdoc.Load(path);
@@ -54,6 +54,7 @@ namespace XMLReader
 
         public void bindGrid()
         {
+            flag = 1;
             doc = XDocument.Load(path);
             xdoc.Load(path);
             var query = from b in doc.Descendants("appSettings").Descendants("add")
@@ -78,7 +79,7 @@ namespace XMLReader
 
         private void GvAppSetting_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            flag = 2;
             txtAppKey.Text = gvAppSetting.Rows[e.RowIndex].Cells["Key"].Value.ToString();
             txtAppValue.Text = gvAppSetting.Rows[e.RowIndex].Cells["Value"].Value.ToString();
         }
@@ -91,6 +92,57 @@ namespace XMLReader
                 node.ParentNode.RemoveChild(node);
                 xdoc.Save(path);
                 bindGrid();
+            }
+        }
+
+        private void BtnAppUpdate_Click(object sender, EventArgs e)
+        {
+            if (flag == 0)
+            {
+                MessageBox.Show("Please click Open XML first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (flag != 2)
+            {
+                MessageBox.Show("Please select the item first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (txtAppKey.Text == tempKey && txtAppValue.Text == tempValue)
+            {
+                MessageBox.Show("Nothing to update", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            else
+            {
+                XmlNode node = xdoc.SelectSingleNode("//add[@key='" + txtAppKey.Text + "']");
+                node.Attributes["key"].Value = txtAppKey.Text;
+                node.Attributes["value"].Value = txtAppValue.Text;
+                xdoc.Save(path);
+                bindGrid();
+                txtAppKey.Text = "";
+                txtAppValue.Text = "";
+            }
+            
+        }
+
+        private void BtnAppAdd_Click(object sender, EventArgs e)
+        {
+            if (flag == 0)
+            {
+                MessageBox.Show("Please click Open XML first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (txtAppAddKey.Text == "" || txtAppAddValue.Text == "")
+            {
+                MessageBox.Show("Please fill all the column!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                XElement emp = new XElement("add",
+                    new XAttribute("key", txtAppAddKey.Text),
+                    new XAttribute("value", txtAppAddValue.Text));
+                doc.Descendants("appSettings").FirstOrDefault().Add(emp);
+                doc.Save(path);
+                bindGrid();
+                txtAppAddKey.Text = "";
+                txtAppAddValue.Text = "";
             }
         }
     }

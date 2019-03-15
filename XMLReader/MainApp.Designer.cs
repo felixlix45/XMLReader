@@ -191,6 +191,7 @@
             this.btnAppUpdate.TabIndex = 0;
             this.btnAppUpdate.Text = "Update";
             this.btnAppUpdate.UseVisualStyleBackColor = true;
+            this.btnAppUpdate.Click += new System.EventHandler(this.BtnAppUpdate_Click);
             // 
             // groupBox1
             // 
@@ -248,6 +249,7 @@
             this.btnAppAdd.TabIndex = 0;
             this.btnAppAdd.Text = "Add";
             this.btnAppAdd.UseVisualStyleBackColor = true;
+            this.btnAppAdd.Click += new System.EventHandler(this.BtnAppAdd_Click);
             // 
             // tabPage2
             // 
