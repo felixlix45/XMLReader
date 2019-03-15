@@ -52,7 +52,7 @@ namespace XMLReader
 
                 using(TextWriter tw = new StreamWriter(logPath))
                 {
-                    tw.WriteLine("\tLOG");
+                    tw.WriteLine("LOG");
                     tw.WriteLine("==============");
                     tw.WriteLine(newTime + " " + text);
                 }
@@ -70,6 +70,18 @@ namespace XMLReader
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             flag = 1;
+        }
+
+        private void CbAddConShowPass_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cbAddConShowPass.Checked == true)
+            {
+                txtConAddPass.PasswordChar = '\0';
+            }
+            else
+            {
+                txtConAddPass.PasswordChar = '*';
+            }
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)

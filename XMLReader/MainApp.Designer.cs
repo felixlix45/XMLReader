@@ -88,7 +88,6 @@
             this.gvAppSetting = new System.Windows.Forms.DataGridView();
             this.gvConString = new System.Windows.Forms.DataGridView();
             this.btnOpen = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -535,6 +534,7 @@
             this.cbAddConShowPass.TabIndex = 15;
             this.cbAddConShowPass.Text = "Show Password";
             this.cbAddConShowPass.UseVisualStyleBackColor = true;
+            this.cbAddConShowPass.CheckedChanged += new System.EventHandler(this.CbAddConShowPass_CheckedChanged);
             // 
             // txtConAddUser
             // 
@@ -700,21 +700,11 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.BtnOpen_Click);
             // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(1183, 640);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 4;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1291, 675);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.gvConString);
             this.Controls.Add(this.gvAppSetting);
@@ -769,7 +759,6 @@
         private System.Windows.Forms.Button btnConAdd;
         private System.Windows.Forms.DataGridView gvConString;
         private System.Windows.Forms.Button btnOpen;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button btnConDelete;
