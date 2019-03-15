@@ -88,6 +88,7 @@
             this.gvAppSetting = new System.Windows.Forms.DataGridView();
             this.gvConString = new System.Windows.Forms.DataGridView();
             this.btnOpen = new System.Windows.Forms.Button();
+            this.lblName = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -700,17 +701,29 @@
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.BtnOpen_Click);
             // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(235, 12);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(55, 20);
+            this.lblName.TabIndex = 4;
+            this.lblName.Text = "Name";
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1291, 675);
+            this.Controls.Add(this.lblName);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.gvConString);
             this.Controls.Add(this.gvAppSetting);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainApp";
             this.Text = "MainApp";
+            this.Load += new System.EventHandler(this.MainApp_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -729,6 +742,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gvAppSetting)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvConString)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -794,5 +808,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtConAddData;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblName;
     }
 }

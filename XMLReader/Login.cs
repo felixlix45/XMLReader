@@ -24,7 +24,7 @@ namespace XMLReader
         {
             LoginForm login = new LoginForm();
             MainApp main = new MainApp();
-            
+            main.username = txtLoginUsername.Text;
             main.Show();
             this.Hide();
         }

@@ -16,6 +16,7 @@ namespace XMLReader
    
     public partial class MainApp : Form
     {
+        public string username { get; set; }
         XmlDocument xdoc = new XmlDocument();
         XDocument doc;
         string path = "";
@@ -82,6 +83,11 @@ namespace XMLReader
             {
                 txtConAddPass.PasswordChar = '*';
             }
+        }
+
+        private void MainApp_Load(object sender, EventArgs e)
+        {
+            this.lblName.Text = "Hello, " + this.username;
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
