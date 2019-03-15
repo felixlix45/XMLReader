@@ -106,7 +106,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(34, 28);
+            this.tabControl1.Location = new System.Drawing.Point(38, 28);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1228, 384);
@@ -287,6 +287,7 @@
             this.btnConDelete.TabIndex = 6;
             this.btnConDelete.Text = "Delete";
             this.btnConDelete.UseVisualStyleBackColor = true;
+            this.btnConDelete.Click += new System.EventHandler(this.BtnConDelete_Click);
             // 
             // groupBox6
             // 
@@ -336,6 +337,7 @@
             // 
             this.txtConConPass.Location = new System.Drawing.Point(140, 194);
             this.txtConConPass.Name = "txtConConPass";
+            this.txtConConPass.PasswordChar = '*';
             this.txtConConPass.Size = new System.Drawing.Size(126, 20);
             this.txtConConPass.TabIndex = 17;
             // 
@@ -343,6 +345,7 @@
             // 
             this.txtConNewPass.Location = new System.Drawing.Point(140, 159);
             this.txtConNewPass.Name = "txtConNewPass";
+            this.txtConNewPass.PasswordChar = '*';
             this.txtConNewPass.Size = new System.Drawing.Size(126, 20);
             this.txtConNewPass.TabIndex = 16;
             // 
@@ -355,6 +358,7 @@
             this.cbConShowOldPass.TabIndex = 15;
             this.cbConShowOldPass.Text = "Show Password";
             this.cbConShowOldPass.UseVisualStyleBackColor = true;
+            this.cbConShowOldPass.CheckedChanged += new System.EventHandler(this.CbConShowOldPass_CheckedChanged);
             // 
             // txtConUser
             // 
@@ -374,6 +378,7 @@
             // 
             this.txtConOldPass.Location = new System.Drawing.Point(140, 123);
             this.txtConOldPass.Name = "txtConOldPass";
+            this.txtConOldPass.PasswordChar = '*';
             this.txtConOldPass.Size = new System.Drawing.Size(126, 20);
             this.txtConOldPass.TabIndex = 12;
             // 
@@ -481,8 +486,9 @@
             this.btnConUpdate.Name = "btnConUpdate";
             this.btnConUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnConUpdate.TabIndex = 0;
-            this.btnConUpdate.Text = "Add";
+            this.btnConUpdate.Text = "Update";
             this.btnConUpdate.UseVisualStyleBackColor = true;
+            this.btnConUpdate.Click += new System.EventHandler(this.BtnConUpdate_Click);
             // 
             // groupBox3
             // 
@@ -547,6 +553,7 @@
             // 
             this.txtConAddPass.Location = new System.Drawing.Point(104, 123);
             this.txtConAddPass.Name = "txtConAddPass";
+            this.txtConAddPass.PasswordChar = '*';
             this.txtConAddPass.Size = new System.Drawing.Size(126, 20);
             this.txtConAddPass.TabIndex = 12;
             // 
@@ -673,6 +680,7 @@
             this.gvConString.Name = "gvConString";
             this.gvConString.Size = new System.Drawing.Size(576, 178);
             this.gvConString.TabIndex = 2;
+            this.gvConString.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GvConString_CellContentClick);
             // 
             // btnOpen
             // 

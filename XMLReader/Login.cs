@@ -26,7 +26,19 @@ namespace XMLReader
             MainApp main = new MainApp();
             
             main.Show();
-            this.Close();
+            this.Hide();
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            Application.Exit();
+        }
+
+
     }
+
+   
 }
