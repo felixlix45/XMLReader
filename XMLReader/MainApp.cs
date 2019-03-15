@@ -31,6 +31,29 @@ namespace XMLReader
             
         }
 
+        public void log(string text)
+        {
+            var time = DateTime.Now;
+            string newTime = time.ToString("dd-mm-yyyy, hh:mm:ss");
+            string logPath = @"D:\log.txt";
+            if (!File.Exists(logPath)){
+                File.Create(logPath).Dispose();
+
+                using(TextWriter tw = new StreamWriter(logPath))
+                {
+                    tw.WriteLine(newTime + " " + text);
+                }
+            }
+            else
+            {
+                using (TextWriter tw = new StreamWriter(logPath, true))
+                {
+                    tw.WriteLine(newTime + " " +  text);
+                    tw.WriteLine("");
+                }
+            }
+        }
+
         private void BtnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog
@@ -82,6 +105,8 @@ namespace XMLReader
             flag = 2;
             txtAppKey.Text = gvAppSetting.Rows[e.RowIndex].Cells["Key"].Value.ToString();
             txtAppValue.Text = gvAppSetting.Rows[e.RowIndex].Cells["Value"].Value.ToString();
+            tempKey = txtAppKey.Text;
+            tempValue = txtAppValue.Text;
         }
 
         private void BtnAppDelete_Click(object sender, EventArgs e)
@@ -92,6 +117,10 @@ namespace XMLReader
                 node.ParentNode.RemoveChild(node);
                 xdoc.Save(path);
                 bindGrid();
+                log("[DELETED] App Settings \n Key : " + txtAppKey.Text + "\n Value : " + txtAppValue.Text);
+                MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
             }
         }
 
@@ -119,6 +148,10 @@ namespace XMLReader
                 bindGrid();
                 txtAppKey.Text = "";
                 txtAppValue.Text = "";
+                log("[UPDATE] App setting \n" +
+                           " [OLD] : Key : " + tempKey + "\n\tValue : " + tempValue + "\n" +
+                           " [NEW] : Key : " + txtAppKey.Text + "\n\tValue : " + txtAppValue.Text);
+                MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             
         }
@@ -143,6 +176,7 @@ namespace XMLReader
                 bindGrid();
                 txtAppAddKey.Text = "";
                 txtAppAddValue.Text = "";
+                
             }
         }
     }
