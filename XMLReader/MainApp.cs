@@ -435,7 +435,7 @@ namespace XMLReader
             }
             else if (oldPassword != txtConOldPass.Text)
             {
-                MessageBox.Show("Old password is wrong!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You need the correct old password to delete this item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -527,7 +527,6 @@ namespace XMLReader
                         MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     }
-
                 }
                 txtConName.Text = "";
                 txtConProv.Text = "";
