@@ -111,6 +111,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1228, 384);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -663,24 +664,31 @@
             this.btnConAdd.TabIndex = 0;
             this.btnConAdd.Text = "Add";
             this.btnConAdd.UseVisualStyleBackColor = true;
+            this.btnConAdd.Click += new System.EventHandler(this.BtnConAdd_Click);
             // 
             // gvAppSetting
             // 
+            this.gvAppSetting.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gvAppSetting.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvAppSetting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvAppSetting.Location = new System.Drawing.Point(38, 437);
             this.gvAppSetting.Name = "gvAppSetting";
+            this.gvAppSetting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvAppSetting.Size = new System.Drawing.Size(587, 178);
             this.gvAppSetting.TabIndex = 1;
-            this.gvAppSetting.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GvAppSetting_CellContentClick);
+            this.gvAppSetting.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GvAppSetting_CellClick);
             // 
             // gvConString
             // 
+            this.gvConString.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gvConString.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvConString.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvConString.Location = new System.Drawing.Point(681, 437);
             this.gvConString.Name = "gvConString";
+            this.gvConString.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvConString.Size = new System.Drawing.Size(576, 178);
             this.gvConString.TabIndex = 2;
-            this.gvConString.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GvConString_CellContentClick);
+            this.gvConString.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GvConString_CellClick);
             // 
             // btnOpen
             // 

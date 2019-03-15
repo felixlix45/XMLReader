@@ -34,7 +34,6 @@ namespace XMLReader
         string tempData = "", tempSecurity = "", tempDBFilename = "", tempUser = "";
         string tempCatalog = "", tempPersist = "", oldPassword = "";
 
-       
 
         public MainApp()
         {
@@ -66,6 +65,11 @@ namespace XMLReader
                     tw.WriteLine("");
                 }
             }
+        }
+
+        private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            flag = 1;
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
@@ -111,7 +115,7 @@ namespace XMLReader
            
         }
 
-        private void GvAppSetting_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void GvAppSetting_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             tabControl1.SelectedIndex = 0;
             flag = 2;
@@ -206,15 +210,7 @@ namespace XMLReader
             }
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            if (e.CloseReason == CloseReason.WindowsShutDown) return;
-
-            Application.Exit();
-        }
-
-        private void GvConString_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void GvConString_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             tabControl1.SelectedIndex = 1;
 
@@ -235,7 +231,7 @@ namespace XMLReader
 
             if (string.Equals(name, "ApplicationServices"))
             {
-                
+
 
                 lblConSecurity.Text = "Integrated Security :";
                 lblConDBFile.Text = "Attach DB Filename :";
@@ -255,7 +251,7 @@ namespace XMLReader
 
                 tempName = txtConName.Text;
                 tempProv = txtConProv.Text;
-                flag = 10;
+                flag = 2;
                 flagConString = 0;
                 txtConOldPass.ReadOnly = true;
                 txtConNewPass.ReadOnly = true;
@@ -428,16 +424,22 @@ namespace XMLReader
             {
                 MessageBox.Show("Please click Open XML first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (flag == 10)
-            {
-                MessageBox.Show("You can't delete this item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             else if (flag != 2)
             {
                 MessageBox.Show("Please select the item first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else if(string.Equals(tempName, "ApplicationServices"))
+            {
+                MessageBox.Show("You can't delete this item", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            else if (oldPassword != txtConOldPass.Text)
+            {
+                MessageBox.Show("Old password is wrong!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else
             {
+                
                 XmlNode node = xdoc.SelectSingleNode("//add[@name='" + txtConName.Text + "']");
 
                 if (node != null)
@@ -468,7 +470,7 @@ namespace XMLReader
             {
                 MessageBox.Show("Please click Open XML first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else if (flag != 2 && flagConString > 0)
+            else if (flag != 2)
             {
                 MessageBox.Show("Please select the item first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -476,34 +478,55 @@ namespace XMLReader
             {
                 
                 string tempFinalString = finalString;
+                
                 if (string.Equals(tempName, "ApplicationServices"))
                 {
-                    
-                    finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
-                    XmlNode node = xdoc.SelectSingleNode("//add[@name='" + tempName + "']");  
-                    node.Attributes["connectionString"].Value = finalString;
-                    node.Attributes["providerName"].Value = txtConProv.Text;
-                    
-                    xdoc.Save(path);
-                    log("[UPDATE] => App setting \n" +
-                           " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
-                           " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
-                    MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
+                    if (string.Equals(txtConName.Text, tempName) && string.Equals(txtConProv.Text, tempProv) && txtConData.Text == tempData && txtConSecurity.Text == tempSecurity && txtConDBFilename.Text == tempDBFilename && txtConUser.Text == tempUser)
+                    {
+                        MessageBox.Show("Nothing to update", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
+                        XmlNode node = xdoc.SelectSingleNode("//add[@name='" + tempName + "']");
+                        node.Attributes["connectionString"].Value = finalString;
+                        node.Attributes["providerName"].Value = txtConProv.Text;
 
+                        xdoc.Save(path);
+                        log("[UPDATE] => App setting \n" +
+                               " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
+                               " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
+                        MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
-                    finalString = "Data Source=" + txtConData.Text + ";Initial Catalog=" + txtConSecurity.Text + ";Persist Security Info=" + txtConDBFilename.Text + ";User ID=" + txtConUser.Text + ";Password=" + txtConNewPass.Text + ";";
-                    XmlNode node = xdoc.SelectSingleNode("//add[@name='" + tempName + "']");
-                    node.Attributes["connectionString"].Value = finalString;
-                    node.Attributes["providerName"].Value = txtConProv.Text;
+                    if (string.Equals(txtConName.Text, tempName) && string.Equals(txtConProv.Text, tempProv) && txtConData.Text == tempData && txtConSecurity.Text == tempSecurity && txtConDBFilename.Text == tempDBFilename && txtConUser.Text == tempUser && txtConOldPass.Text == txtConNewPass.Text)
+                    {
+                        MessageBox.Show("Nothing to update", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (oldPassword != txtConOldPass.Text)
+                    {
+                        MessageBox.Show("Old password is wrong!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else if(txtConNewPass.Text != txtConConPass.Text)
+                    {
+                        MessageBox.Show("Password and Confirm Password is diffrent", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        finalString = "Data Source=" + txtConData.Text + ";Initial Catalog=" + txtConSecurity.Text + ";Persist Security Info=" + txtConDBFilename.Text + ";User ID=" + txtConUser.Text + ";Password=" + txtConNewPass.Text + ";";
+                        XmlNode node = xdoc.SelectSingleNode("//add[@name='" + tempName + "']");
+                        node.Attributes["connectionString"].Value = finalString;
+                        node.Attributes["providerName"].Value = txtConProv.Text;
 
-                    xdoc.Save(path);
-                    log("[UPDATE] => App setting \n" +
-                           " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
-                           " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
-                    MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        xdoc.Save(path);
+                        log("[UPDATE] => App setting \n" +
+                               " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
+                               " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
+                        MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }
 
                 }
                 txtConName.Text = "";
@@ -516,6 +539,39 @@ namespace XMLReader
                 txtConNewPass.Text = "";
                 txtConConPass.Text = "";
                 cbConShowOldPass.Checked = false;
+                flag = 1;
+                
+            }
+        }
+
+        private void BtnConAdd_Click(object sender, EventArgs e)
+        {
+            if (flag == 0)
+            {
+                MessageBox.Show("Please click Open XML first!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (string.Equals(txtConAddName.Text, "") || string.Equals(txtConAddProv.Text , "" ) || txtConAddData.Text == "" || txtConAddSecurity.Text == "" || txtConAddDBFilename.Text == "" || txtConAddUser.Text == "")
+            {
+                MessageBox.Show("Something is missing, check your input again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                if(string.Equals(txtConAddName.Text, "ApplicationServices"))
+                {
+                    MessageBox.Show("You cannot add this item", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finalString = "Data Source=" + txtConAddData.Text + ";Initial Catalog=" + txtConAddSecurity.Text + ";Persist Security Info=" + txtConAddDBFilename.Text + ";User ID=" + txtConAddUser.Text + ";Password=" + txtConAddPass.Text + ";";
+                
+                XElement emp = new XElement("add",
+                    new XAttribute("name", txtConAddName.Text),
+                    new XAttribute("connectionString", finalString),
+                    new XAttribute("providerName", txtConAddProv.Text));
+                doc.Descendants("connectionStrings").FirstOrDefault().Add(emp);
+                MessageBox.Show("Added & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                doc.Save(path);
+                bindGrid();
+                log("[ADDED] Connection Strings \n Name : " + txtConAddName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConAddProv.Text);
+
             }
         }
 
@@ -533,6 +589,14 @@ namespace XMLReader
                 txtConNewPass.PasswordChar = '*';
                 txtConConPass.PasswordChar = '*';
             }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (e.CloseReason == CloseReason.WindowsShutDown) return;
+
+            Application.Exit();
         }
 
     }
