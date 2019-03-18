@@ -8,18 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Principal;
-
 using System.IO;
 using System.Threading;
+using System.DirectoryServices.AccountManagement;
 
 namespace XMLReader
 {
     public partial class LoginForm : Form
     {
-
-        
-
-        
         public LoginForm()
         {
             InitializeComponent();
@@ -46,30 +42,43 @@ namespace XMLReader
             IntPtr logonToken = LogonUser();
             WindowsIdentity windowsIdentity = new WindowsIdentity(logonToken);
             bool authenticated = true;
-            string username;
-            string password = string.Empty;
-            authenticated &= !UserInSystemRole(WindowsBuiltInRole.Administrator);
-            username = System.Windows.Forms.SystemInformation.UserName.ToUpper().ToString();
-            
 
+            authenticated &= !UserInSystemRole(WindowsBuiltInRole.Administrator);
+            //string username = System.Windows.Forms.SystemInformation.UserName.ToUpper().ToString();
+
+
+            bool valid = false;
+            try
+            {
+                using (PrincipalContext context = new PrincipalContext(ContextType.Domain, "BCADOMAIN"))
+                {
+                    valid = context.ValidateCredentials(txtLoginUsername.Text, txtLoginPass.Text);
+                }
+            }
+            catch(Exception)
+            {
+                valid = false;
+            }            
+
+            if (!valid)
+            {
+                MessageBox.Show("Username or Password is wrong!", "INVALID LOGIN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
             //Error ketika dicoba
             //username = System.DirectoryServices.AccountManagement.UserPrincipal.Current.DisplayName.ToString();
-            if (!authenticated)
-            {
-                MessageBox.Show("ERROR LOGIN", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //if (!authenticated)
+            //{
+            //    MessageBox.Show("ERROR LOGIN", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             else
             {
                 LoginForm login = new LoginForm();
                 MainApp main = new MainApp();
                 //main.username = windowsIdentity.Name.ToString();
-                main.username = username;
+                main.username = txtLoginUsername.Text;
                 main.Show();
                 this.Hide();
             }
-
-
-            
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

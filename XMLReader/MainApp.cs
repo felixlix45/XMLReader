@@ -90,6 +90,13 @@ namespace XMLReader
             this.lblName.Text = "Hello, " + this.username;
         }
 
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            LoginForm login = new LoginForm();
+            login.Show();
+        }
+
         private void BtnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog
