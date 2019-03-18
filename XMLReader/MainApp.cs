@@ -47,7 +47,9 @@ namespace XMLReader
         {
             var time = DateTime.Now;
             string newTime = time.ToString("dd-mm-yyyy, hh:mm:ss");
-            string logPath = @"D:\log.txt";
+            DirectoryInfo di = System.IO.Directory.CreateDirectory("D:\\XML_Reader\\Log");
+            di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            string logPath = @"D:\XML_Reader\Log\log.txt";
             if (!File.Exists(logPath)){
                 File.Create(logPath).Dispose();
 
@@ -55,14 +57,15 @@ namespace XMLReader
                 {
                     tw.WriteLine("LOG");
                     tw.WriteLine("==============");
-                    tw.WriteLine(newTime + " " + text);
+                    tw.WriteLine("[USER] => " + username + "\n" + newTime + " " + text);
+                    tw.WriteLine("");
                 }
             }
             else
             {
                 using (TextWriter tw = new StreamWriter(logPath, true))
                 {
-                    tw.WriteLine(newTime + " " +  text);
+                    tw.WriteLine("[USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
                     tw.WriteLine("");
                 }
             }
@@ -92,7 +95,7 @@ namespace XMLReader
 
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             LoginForm login = new LoginForm();
             login.Show();
         }
