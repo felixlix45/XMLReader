@@ -41,6 +41,7 @@ namespace XMLReader
             InitializeComponent();
             this.CenterToScreen();
             tabControl1.Enabled = false;
+            btnRefresh.Enabled = false;
         }
 
         public void log(string text)
@@ -100,6 +101,29 @@ namespace XMLReader
             login.Show();
         }
 
+        private void ClearTextBoxes()
+        {
+            Action<Control.ControlCollection> func = null;
+
+            func = (controls) =>
+            {
+                foreach (Control control in controls)
+                    if (control is TextBox)
+                        (control as TextBox).Clear();
+                    else
+                        func(control.Controls);
+            };
+
+            func(Controls);
+        }
+
+        private void BtnRefresh_Click(object sender, EventArgs e)
+        {
+            ClearTextBoxes();
+            bindGrid();
+            
+        }
+
         private void BtnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog
@@ -115,6 +139,7 @@ namespace XMLReader
                 tabControl1.Enabled = true;
                 path = openFile.FileName;
                 bindGrid();
+                btnRefresh.Enabled = true;
             }
         }
 
@@ -165,17 +190,22 @@ namespace XMLReader
             }
             else
             {
-                XmlNode node = xdoc.SelectSingleNode("//add[@key='" + txtAppKey.Text + "']");
-                if (node != null)
+                DialogResult dialogResult = MessageBox.Show("Are you sure want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(dialogResult == DialogResult.Yes)
                 {
-                    node.ParentNode.RemoveChild(node);
-                    xdoc.Save(path);
-                    bindGrid();
-                    log("[DELETED] => App Settings \n Key : " + txtAppKey.Text + "\n Value : " + txtAppValue.Text);
-                    MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    txtAppKey.Text = "";
-                    txtAppValue.Text = "";
+                    XmlNode node = xdoc.SelectSingleNode("//add[@key='" + txtAppKey.Text + "']");
+                    if (node != null)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                        xdoc.Save(path);
+                        bindGrid();
+                        log("[DELETED] => App Settings \n Key : " + txtAppKey.Text + "\n Value : " + txtAppValue.Text);
+                        MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtAppKey.Text = "";
+                        txtAppValue.Text = "";
+                    }
                 }
+                
             }
             
         }
@@ -330,12 +360,13 @@ namespace XMLReader
                         }
 
                     }
-                    finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
-
+                    
                     txtConData.Text = dataSource;
                     txtConSecurity.Text = integratedSecurity;
                     txtConDBFilename.Text = attachDBFilename;
                     txtConUser.Text = userInstance;
+                    finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
+
                     txtConOldPass.Text = "";
                     txtConNewPass.Text = "";
                     txtConConPass.Text = "";
@@ -467,28 +498,34 @@ namespace XMLReader
             }
             else
             {
-                
-                XmlNode node = xdoc.SelectSingleNode("//add[@name='" + txtConName.Text + "']");
 
-                if (node != null)
+                DialogResult dialogResult = MessageBox.Show("Are you sure want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(dialogResult == DialogResult.Yes)
                 {
-                    node.ParentNode.RemoveChild(node);
-                    xdoc.Save(path);
-                    bindGrid();
-                    MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    log("[DELETED] => Connection String\n Name : " + txtConName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConProv.Text);
-                    txtConName.Text = "";
-                    txtConProv.Text = "";
-                    txtConData.Text = "";
-                    txtConDBFilename.Text = "";
-                    txtConUser.Text = "";
-                    txtConSecurity.Text = "";
-                    txtConOldPass.Text = "";
-                    txtConNewPass.Text = "";
-                    txtConConPass.Text = "";
-                    cbConShowOldPass.Checked = false;
+                    XmlNode node = xdoc.SelectSingleNode("//add[@name='" + txtConName.Text + "']");
 
+                    if (node != null)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                        xdoc.Save(path);
+                        bindGrid();
+                        MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        log("[DELETED] => Connection String\n Name : " + txtConName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConProv.Text);
+                        txtConName.Text = "";
+                        txtConProv.Text = "";
+                        txtConData.Text = "";
+                        txtConDBFilename.Text = "";
+                        txtConUser.Text = "";
+                        txtConSecurity.Text = "";
+                        txtConOldPass.Text = "";
+                        txtConNewPass.Text = "";
+                        txtConConPass.Text = "";
+                        cbConShowOldPass.Checked = false;
+
+                    }
                 }
+                
+               
             }
         }
 
@@ -519,8 +556,8 @@ namespace XMLReader
                         XmlNode node = xdoc.SelectSingleNode("//add[@name='" + tempName + "']");
                         node.Attributes["connectionString"].Value = finalString;
                         node.Attributes["providerName"].Value = txtConProv.Text;
-
                         xdoc.Save(path);
+                        bindGrid();
                         log("[UPDATE] => App setting \n" +
                                " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
                                " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
@@ -537,6 +574,10 @@ namespace XMLReader
                     {
                         MessageBox.Show("Old password is wrong!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    else if (txtConNewPass.Text == "" && txtConConPass.Text == "")
+                    {
+                        MessageBox.Show("If you want to update this item without updating the old password, please just insert the new password as the old password", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                     else if(txtConNewPass.Text != txtConConPass.Text)
                     {
                         MessageBox.Show("Password and Confirm Password is diffrent", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -549,6 +590,7 @@ namespace XMLReader
                         node.Attributes["providerName"].Value = txtConProv.Text;
 
                         xdoc.Save(path);
+                        bindGrid();
                         log("[UPDATE] => App setting \n" +
                                " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
                                " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
@@ -598,7 +640,14 @@ namespace XMLReader
                 doc.Save(path);
                 bindGrid();
                 log("[ADDED] Connection Strings \n Name : " + txtConAddName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConAddProv.Text);
-
+                txtConAddData.Text = "";
+                txtConAddDBFilename.Text = "";
+                txtConAddName.Text = "";
+                txtConAddProv.Text = "";
+                txtConAddPass.Text = "";
+                txtConAddSecurity.Text = "";
+                txtConAddUser.Text = "";
+                cbAddConShowPass.Checked = false;
             }
         }
 

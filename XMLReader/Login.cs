@@ -21,6 +21,7 @@ namespace XMLReader
             InitializeComponent();
             this.CenterToScreen();
             this.AcceptButton = this.btnLogin;
+   
         }
 
         public bool UserInSystemRole(WindowsBuiltInRole role)
@@ -88,7 +89,6 @@ namespace XMLReader
 
             Application.Exit();
         }
-
 
     }
 

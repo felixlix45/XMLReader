@@ -90,6 +90,7 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.lblName = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -722,11 +723,22 @@
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.BtnLogout_Click);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(979, 640);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh List";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1291, 675);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.btnOpen);
@@ -822,5 +834,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
