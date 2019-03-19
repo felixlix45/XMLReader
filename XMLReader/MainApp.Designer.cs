@@ -461,6 +461,7 @@
             // 
             this.txtConName.Location = new System.Drawing.Point(71, 19);
             this.txtConName.Name = "txtConName";
+            this.txtConName.ReadOnly = true;
             this.txtConName.Size = new System.Drawing.Size(148, 20);
             this.txtConName.TabIndex = 3;
             // 
@@ -676,6 +677,7 @@
             this.gvAppSetting.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvAppSetting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvAppSetting.Location = new System.Drawing.Point(38, 437);
+            this.gvAppSetting.MultiSelect = false;
             this.gvAppSetting.Name = "gvAppSetting";
             this.gvAppSetting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvAppSetting.Size = new System.Drawing.Size(587, 178);
@@ -688,6 +690,7 @@
             this.gvConString.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gvConString.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvConString.Location = new System.Drawing.Point(681, 437);
+            this.gvConString.MultiSelect = false;
             this.gvConString.Name = "gvConString";
             this.gvConString.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvConString.Size = new System.Drawing.Size(576, 178);

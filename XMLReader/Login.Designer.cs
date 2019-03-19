@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.btnLogin = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtLoginUsername = new System.Windows.Forms.TextBox();
             this.txtLoginPass = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.pbGIF = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -54,6 +57,7 @@
             this.label1.Size = new System.Drawing.Size(102, 22);
             this.label1.TabIndex = 1;
             this.label1.Text = "Username :";
+            this.label1.DoubleClick += new System.EventHandler(this.Label1_DoubleClick);
             // 
             // txtLoginUsername
             // 
@@ -80,12 +84,24 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Password :";
             // 
+            // pbGIF
+            // 
+            this.pbGIF.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbGIF.Image = ((System.Drawing.Image)(resources.GetObject("pbGIF.Image")));
+            this.pbGIF.Location = new System.Drawing.Point(81, 40);
+            this.pbGIF.Name = "pbGIF";
+            this.pbGIF.Size = new System.Drawing.Size(261, 215);
+            this.pbGIF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbGIF.TabIndex = 5;
+            this.pbGIF.TabStop = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(407, 310);
+            this.Controls.Add(this.pbGIF);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtLoginPass);
             this.Controls.Add(this.txtLoginUsername);
@@ -94,6 +110,7 @@
             this.DoubleBuffered = true;
             this.Name = "LoginForm";
             this.Text = "Login";
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,6 +123,7 @@
         private System.Windows.Forms.TextBox txtLoginUsername;
         private System.Windows.Forms.TextBox txtLoginPass;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox pbGIF;
     }
 }
 

@@ -11,6 +11,8 @@ using System.Xml.Linq;
 using System.Xml;
 using System.IO;
 
+// Magic. Do not touch.
+
 namespace XMLReader
 {
    
@@ -327,6 +329,9 @@ namespace XMLReader
                     txtConNewPass.ReadOnly = true;
                     txtConConPass.ReadOnly = true;
                     cbConShowOldPass.Enabled = false;
+
+                    //Get every connectionstring attribute detail
+                    //Data Source, DB Filename, User Instance, etc              
                     for (int i = 0; i < text.Length - 1; i++)
                     {
 

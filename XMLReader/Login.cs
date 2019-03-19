@@ -21,7 +21,7 @@ namespace XMLReader
             InitializeComponent();
             this.CenterToScreen();
             this.AcceptButton = this.btnLogin;
-   
+            pbGIF.Visible = false;
         }
 
         public bool UserInSystemRole(WindowsBuiltInRole role)
@@ -65,7 +65,7 @@ namespace XMLReader
             {
                 MessageBox.Show("Username or Password is wrong!", "INVALID LOGIN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            //Error ketika dicoba
+            // I am not sure if we need this, but too scared to delete.
             //username = System.DirectoryServices.AccountManagement.UserPrincipal.Current.DisplayName.ToString();
             //if (!authenticated)
             //{
@@ -90,6 +90,16 @@ namespace XMLReader
             Application.Exit();
         }
 
+        private void Label1_DoubleClick(object sender, EventArgs e)
+        {
+            pbGIF.Visible = true;
+            DialogResult dialogResult =  MessageBox.Show("Created by : Felix Andrian Nugroho 19/03/2019", "About", MessageBoxButtons.OK, MessageBoxIcon.None);
+            if(dialogResult == DialogResult.OK)
+            {
+                pbGIF.Visible = false;
+            }
+            
+        }
     }
 
    
