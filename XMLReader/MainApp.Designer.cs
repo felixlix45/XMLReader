@@ -163,6 +163,7 @@
             // 
             this.txtAppKey.Location = new System.Drawing.Point(138, 46);
             this.txtAppKey.Name = "txtAppKey";
+            this.txtAppKey.ReadOnly = true;
             this.txtAppKey.Size = new System.Drawing.Size(164, 20);
             this.txtAppKey.TabIndex = 3;
             // 

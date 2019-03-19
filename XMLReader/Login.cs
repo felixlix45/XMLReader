@@ -42,7 +42,7 @@ namespace XMLReader
         {
             IntPtr logonToken = LogonUser();
             WindowsIdentity windowsIdentity = new WindowsIdentity(logonToken);
-            bool authenticated = true;
+            //bool authenticated = true;
 
             //authenticated &= !UserInSystemRole(WindowsBuiltInRole.Administrator);
             //string username = System.Windows.Forms.SystemInformation.UserName.ToUpper().ToString();

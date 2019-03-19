@@ -35,7 +35,7 @@ namespace XMLReader
         string tempData = "", tempSecurity = "", tempDBFilename = "", tempUser = "";
         string tempCatalog = "", tempPersist = "", oldPassword = "";
 
-        int i = 1;
+        
         public MainApp()
         {
 
@@ -54,22 +54,21 @@ namespace XMLReader
             string logPath = @"D:\XML_Reader\Log\log.txt";
             if (!File.Exists(logPath)){
                 File.Create(logPath).Dispose();
-                i = 1;
                 using(TextWriter tw = new StreamWriter(logPath))
                 {
                     tw.WriteLine("LOG");
-                    tw.WriteLine("==============");
-                    tw.WriteLine(i + ". [USER] => " + username + "\n" + newTime + " " + text);
-                    tw.WriteLine("");
+                    tw.WriteLine("====================================================");
+                    tw.WriteLine("[USER] => " + username + "\n" + newTime + " " + text);
+                    tw.WriteLine("\n");
                 }
             }
             else
             {
                 using (TextWriter tw = new StreamWriter(logPath, true))
                 {
-                    i++;
-                    tw.WriteLine(i + ". [USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
-                    tw.WriteLine("");
+                    tw.WriteLine("====================================================");
+                    tw.WriteLine("[USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
+                    tw.WriteLine("\n");
                 }
             }
         }
@@ -172,12 +171,16 @@ namespace XMLReader
 
         private void GvAppSetting_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            tabControl1.SelectedIndex = 0;
-            flag = 2;
-            txtAppKey.Text = gvAppSetting.Rows[e.RowIndex].Cells["Key"].Value.ToString();
-            txtAppValue.Text = gvAppSetting.Rows[e.RowIndex].Cells["Value"].Value.ToString();
-            tempKey = txtAppKey.Text;
-            tempValue = txtAppValue.Text;
+            if(e.RowIndex != -1)
+            {
+                tabControl1.SelectedIndex = 0;
+                flag = 2;
+                txtAppKey.Text = gvAppSetting.Rows[e.RowIndex].Cells["Key"].Value.ToString();
+                txtAppValue.Text = gvAppSetting.Rows[e.RowIndex].Cells["Value"].Value.ToString();
+                tempKey = txtAppKey.Text;
+                tempValue = txtAppValue.Text;
+            }
+            
         }
 
         private void BtnAppDelete_Click(object sender, EventArgs e)
@@ -201,7 +204,9 @@ namespace XMLReader
                         node.ParentNode.RemoveChild(node);
                         xdoc.Save(path);
                         bindGrid();
-                        log("[DELETED] => App Settings \n Key : " + txtAppKey.Text + "\n Value : " + txtAppValue.Text);
+                        log("[DELETED] => App Settings \n" +
+                            "====================================================" +
+                            "\n Key : " + txtAppKey.Text + "\n Value : " + txtAppValue.Text);
                         MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         txtAppKey.Text = "";
                         txtAppValue.Text = "";
@@ -235,8 +240,9 @@ namespace XMLReader
                 xdoc.Save(path);
                 bindGrid();
                 log("[UPDATE] => App setting \n" +
-                           " [OLD] => Key : " + tempKey + "\n\tValue : " + tempValue + "\n" +
-                           " [NEW] => Key : " + txtAppKey.Text + "\n\tValue : " + txtAppValue.Text);
+                           "====================================================\n" +
+                           " [OLD] => Key : " + tempKey + "\n\t  Value : " + tempValue + "\n" +
+                           " [NEW] => Key : " + txtAppKey.Text + "\n\t  Value : " + txtAppValue.Text);
                 MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtAppKey.Text = "";
                 txtAppValue.Text = "";
@@ -262,7 +268,9 @@ namespace XMLReader
                 doc.Descendants("appSettings").FirstOrDefault().Add(emp);
                 doc.Save(path);
                 bindGrid();
-                log("[ADDED] => App Settings \n Key : " + txtAppAddKey.Text + "\n Value : " + txtAppAddValue.Text);
+                log("[ADDED] => App Settings \n" +
+                    "====================================================\n" +
+                    " Key : " + txtAppAddKey.Text + "\n Value : " + txtAppAddValue.Text);
                 MessageBox.Show("Added & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtAppAddKey.Text = "";
                 txtAppAddValue.Text = "";
@@ -272,211 +280,215 @@ namespace XMLReader
 
         private void GvConString_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            tabControl1.SelectedIndex = 1;
-
-            indexRowConString = e.RowIndex;
-            int counter = 0;
-            string text = gvConString.Rows[e.RowIndex].Cells["connectionString"].Value.ToString();
-            string name = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
-            dataSource = "";
-            integratedSecurity = "";
-            attachDBFilename = "";
-            userInstance = "";
-
-            initialCatalog = "";
-            persistySecInfo = "";
-            userID = "";
-            password = "";
-
-
-            if (string.Equals(name, "ApplicationServices"))
+            if (e.RowIndex != -1)
             {
+                tabControl1.SelectedIndex = 1;
+
+                indexRowConString = e.RowIndex;
+                int counter = 0;
+                string text = gvConString.Rows[e.RowIndex].Cells["connectionString"].Value.ToString();
+                string name = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
+                dataSource = "";
+                integratedSecurity = "";
+                attachDBFilename = "";
+                userInstance = "";
+
+                initialCatalog = "";
+                persistySecInfo = "";
+                userID = "";
+                password = "";
 
 
-                lblConSecurity.Text = "Integrated Security :";
-                lblConDBFile.Text = "Attach DB Filename :";
-                lblConUser.Text = "User Instance :";
-
-                txtConName.Text = "";
-                txtConProv.Text = "";
-                txtConData.Text = "";
-                txtConDBFilename.Text = "";
-                txtConSecurity.Text = "";
-                txtConDBFilename.Text = "";
-                txtConUser.Text = "";
-                txtConOldPass.Text = "";
-
-                txtConName.Text = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
-                txtConProv.Text = gvConString.Rows[e.RowIndex].Cells["providerName"].Value.ToString();
-
-                tempName = txtConName.Text;
-                tempProv = txtConProv.Text;
-                flag = 2;
-                flagConString = 0;
-                txtConOldPass.ReadOnly = true;
-                txtConNewPass.ReadOnly = true;
-                txtConConPass.ReadOnly = true;
-                cbConShowOldPass.Enabled = false;
-                for (int i = 0; i < text.Length - 1; i++)
+                if (string.Equals(name, "ApplicationServices"))
                 {
 
-                    if (text[i].Equals('=') && !text[i + 1].Equals(';'))
+
+                    lblConSecurity.Text = "Integrated Security :";
+                    lblConDBFile.Text = "Attach DB Filename :";
+                    lblConUser.Text = "User Instance :";
+
+                    txtConName.Text = "";
+                    txtConProv.Text = "";
+                    txtConData.Text = "";
+                    txtConDBFilename.Text = "";
+                    txtConSecurity.Text = "";
+                    txtConDBFilename.Text = "";
+                    txtConUser.Text = "";
+                    txtConOldPass.Text = "";
+
+                    txtConName.Text = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
+                    txtConProv.Text = gvConString.Rows[e.RowIndex].Cells["providerName"].Value.ToString();
+
+                    tempName = txtConName.Text;
+                    tempProv = txtConProv.Text;
+                    flag = 2;
+                    flagConString = 0;
+                    txtConOldPass.ReadOnly = true;
+                    txtConNewPass.ReadOnly = true;
+                    txtConConPass.ReadOnly = true;
+                    cbConShowOldPass.Enabled = false;
+                    for (int i = 0; i < text.Length - 1; i++)
                     {
-                        if (counter == 0)
+
+                        if (text[i].Equals('=') && !text[i + 1].Equals(';'))
                         {
-                            while (!text[i + 1].Equals(';'))
+                            if (counter == 0)
                             {
-                                dataSource = dataSource + text[i + 1];
-                                i++;
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    dataSource = dataSource + text[i + 1];
+                                    i++;
+                                }
+                                counter = 1;
                             }
-                            counter = 1;
-                        }
-                        else if (counter == 1)
-                        {
-                            while (!text[i + 1].Equals(';'))
+                            else if (counter == 1)
                             {
-                                integratedSecurity = integratedSecurity + text[i + 1];
-                                i++;
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    integratedSecurity = integratedSecurity + text[i + 1];
+                                    i++;
+                                }
+
+                                counter = 2;
+                            }
+                            else if (counter == 2)
+                            {
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    attachDBFilename = attachDBFilename + text[i + 1];
+                                    i++;
+                                }
+
+                                counter = 3;
+                            }
+                            else if (counter == 3)
+                            {
+                                while (i != text.Length - 1)
+                                {
+                                    userInstance = userInstance + text[i + 1];
+                                    i++;
+                                }
+                                counter = 4;
                             }
 
-                            counter = 2;
                         }
-                        else if (counter == 2)
-                        {
-                            while (!text[i + 1].Equals(';'))
-                            {
-                                attachDBFilename = attachDBFilename + text[i + 1];
-                                i++;
-                            }
 
-                            counter = 3;
-                        }
-                        else if (counter == 3)
-                        {
-                            while (i != text.Length - 1)
-                            {
-                                userInstance = userInstance + text[i + 1];
-                                i++;
-                            }
-                            counter = 4;
-                        }
+                        txtConData.Text = dataSource;
+                        txtConSecurity.Text = integratedSecurity;
+                        txtConDBFilename.Text = attachDBFilename;
+                        txtConUser.Text = userInstance;
+                        finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
+
+                        txtConOldPass.Text = "";
+                        txtConNewPass.Text = "";
+                        txtConConPass.Text = "";
+                        tempData = dataSource;
+                        tempSecurity = integratedSecurity;
+                        tempDBFilename = attachDBFilename;
+                        tempUser = userInstance;
+                        txtConName.ReadOnly = true;
 
                     }
-                    
-                    txtConData.Text = dataSource;
-                    txtConSecurity.Text = integratedSecurity;
-                    txtConDBFilename.Text = attachDBFilename;
-                    txtConUser.Text = userInstance;
-                    finalString = "data Source=" + txtConData.Text + ";Integrated Security=" + txtConSecurity.Text + ";AttachDBFilename=" + txtConDBFilename.Text + ";User Instance=" + txtConUser.Text;
-
+                }
+                else
+                {
+                    txtConName.Text = "";
+                    txtConProv.Text = "";
+                    txtConData.Text = "";
+                    txtConDBFilename.Text = "";
+                    txtConSecurity.Text = "";
+                    txtConDBFilename.Text = "";
+                    txtConUser.Text = "";
                     txtConOldPass.Text = "";
                     txtConNewPass.Text = "";
                     txtConConPass.Text = "";
-                    tempData = dataSource;
-                    tempSecurity = integratedSecurity;
-                    tempDBFilename = attachDBFilename;
-                    tempUser = userInstance;
-                    txtConName.ReadOnly = true;
 
-                }
-            }
-            else
-            {
-                txtConName.Text = "";
-                txtConProv.Text = "";
-                txtConData.Text = "";
-                txtConDBFilename.Text = "";
-                txtConSecurity.Text = "";
-                txtConDBFilename.Text = "";
-                txtConUser.Text = "";
-                txtConOldPass.Text = "";
-                txtConNewPass.Text = "";
-                txtConConPass.Text = "";
+                    txtConName.Text = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
+                    txtConProv.Text = gvConString.Rows[e.RowIndex].Cells["providerName"].Value.ToString();
 
-                txtConName.Text = gvConString.Rows[e.RowIndex].Cells["name"].Value.ToString();
-                txtConProv.Text = gvConString.Rows[e.RowIndex].Cells["providerName"].Value.ToString();
+                    tempName = txtConName.Text;
+                    tempProv = txtConProv.Text;
 
-                tempName = txtConName.Text;
-                tempProv = txtConProv.Text;
+                    flag = 2;
+                    flagConString = 1;
+                    txtConOldPass.ReadOnly = false;
+                    txtConNewPass.ReadOnly = false;
+                    txtConConPass.ReadOnly = false;
+                    cbConShowOldPass.Enabled = true;
+                    lblConSecurity.Text = "Initial Catalog :";
+                    lblConDBFile.Text = "Persist Security Info";
+                    lblConUser.Text = "User ID";
 
-                flag = 2;
-                flagConString = 1;
-                txtConOldPass.ReadOnly = false;
-                txtConNewPass.ReadOnly = false;
-                txtConConPass.ReadOnly = false;
-                cbConShowOldPass.Enabled = true;
-                lblConSecurity.Text = "Initial Catalog :";
-                lblConDBFile.Text = "Persist Security Info";
-                lblConUser.Text = "User ID";
-
-                for (int i = 0; i < text.Length - 1; i++)
-                {
-
-                    if (text[i].Equals('=') && !text[i + 1].Equals(';'))
+                    for (int i = 0; i < text.Length - 1; i++)
                     {
-                        if (counter == 0)
-                        {
-                            while (!text[i + 1].Equals(';'))
-                            {
-                                dataSource = dataSource + text[i + 1];
-                                i++;
-                            }
-                            counter = 1;
-                        }
-                        else if (counter == 1)
-                        {
-                            while (!text[i + 1].Equals(';'))
-                            {
-                                initialCatalog = initialCatalog + text[i + 1];
-                                i++;
-                            }
 
-                            counter = 2;
-                        }
-                        else if (counter == 2)
+                        if (text[i].Equals('=') && !text[i + 1].Equals(';'))
                         {
-                            while (!text[i + 1].Equals(';'))
+                            if (counter == 0)
                             {
-                                persistySecInfo = persistySecInfo + text[i + 1];
-                                i++;
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    dataSource = dataSource + text[i + 1];
+                                    i++;
+                                }
+                                counter = 1;
                             }
+                            else if (counter == 1)
+                            {
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    initialCatalog = initialCatalog + text[i + 1];
+                                    i++;
+                                }
 
-                            counter = 3;
-                        }
-                        else if (counter == 3)
-                        {
-                            while (!text[i + 1].Equals(';'))
-                            {
-                                userID = userID + text[i + 1];
-                                i++;
+                                counter = 2;
                             }
+                            else if (counter == 2)
+                            {
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    persistySecInfo = persistySecInfo + text[i + 1];
+                                    i++;
+                                }
 
-                            counter = 4;
-                        }
-                        else if (counter == 4)
-                        {
-                            while (i != text.Length - 2)
-                            {
-                                password = password + text[i + 1];
-                                i++;
+                                counter = 3;
                             }
-                            counter = 5;
+                            else if (counter == 3)
+                            {
+                                while (!text[i + 1].Equals(';'))
+                                {
+                                    userID = userID + text[i + 1];
+                                    i++;
+                                }
+
+                                counter = 4;
+                            }
+                            else if (counter == 4)
+                            {
+                                while (i != text.Length - 2)
+                                {
+                                    password = password + text[i + 1];
+                                    i++;
+                                }
+                                counter = 5;
+                            }
                         }
+                        finalString = "Data Source=" + txtConData.Text + ";Initial Catalog=" + txtConSecurity.Text + ";Persist Security Info=" + txtConDBFilename.Text + ";User ID=" + txtConUser.Text + ";Password=" + password + ";";
+                        txtConData.Text = dataSource;
+                        txtConSecurity.Text = initialCatalog;
+                        txtConDBFilename.Text = persistySecInfo;
+                        txtConUser.Text = userID;
+                        txtConOldPass.Text = "";
+                        tempData = dataSource;
+                        tempSecurity = initialCatalog;
+                        tempDBFilename = persistySecInfo;
+                        tempUser = userID;
+                        oldPassword = password;
+                        txtConName.ReadOnly = false;
                     }
-                    finalString = "Data Source=" + txtConData.Text + ";Initial Catalog=" + txtConSecurity.Text + ";Persist Security Info=" + txtConDBFilename.Text + ";User ID=" + txtConUser.Text + ";Password=" + password + ";";
-                    txtConData.Text = dataSource;
-                    txtConSecurity.Text = initialCatalog;
-                    txtConDBFilename.Text = persistySecInfo;
-                    txtConUser.Text = userID;
-                    txtConOldPass.Text = "";
-                    tempData = dataSource;
-                    tempSecurity = initialCatalog;
-                    tempDBFilename = persistySecInfo;
-                    tempUser = userID;
-                    oldPassword = password;
-                    txtConName.ReadOnly = false;
                 }
             }
+            
         }
 
         private void BtnConDelete_Click(object sender, EventArgs e)
@@ -512,7 +524,9 @@ namespace XMLReader
                         xdoc.Save(path);
                         bindGrid();
                         MessageBox.Show("Deleted & Saved", "Delete Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        log("[DELETED] => Connection String\n Name : " + txtConName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConProv.Text);
+                        log("[DELETED] => Connection String\n" +
+                            "====================================================\n" +
+                            " Name : " + txtConName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConProv.Text);
                         txtConName.Text = "";
                         txtConProv.Text = "";
                         txtConData.Text = "";
@@ -560,9 +574,10 @@ namespace XMLReader
                         node.Attributes["providerName"].Value = txtConProv.Text;
                         xdoc.Save(path);
                         bindGrid();
-                        log("[UPDATE] => App setting \n" +
-                               " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
-                               " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
+                        log("[UPDATE] => Connection Strings \n" +
+                            "====================================================\n" +
+                               " [OLD] => Name : " + tempName + "\n \t  Connection String : " + tempFinalString + "\n \t  Provider Name : " + tempProv + "\n" +
+                               " [NEW] => Name : " + txtConName.Text + "\n \t  Connection String : " + finalString + "\n \t  Provider Name : " + txtConProv.Text);
                         MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -571,6 +586,10 @@ namespace XMLReader
                     if (string.Equals(txtConName.Text, tempName) && string.Equals(txtConProv.Text, tempProv) && txtConData.Text == tempData && txtConSecurity.Text == tempSecurity && txtConDBFilename.Text == tempDBFilename && txtConUser.Text == tempUser && txtConOldPass.Text == txtConNewPass.Text)
                     {
                         MessageBox.Show("Nothing to update", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (string.Equals(txtConName.Text, "") || string.Equals(txtConProv.Text, "") || txtConData.Text == "" || txtConSecurity.Text == "" || txtConDBFilename.Text == "" || txtConUser.Text == "")
+                    {
+                        MessageBox.Show("Please fill all the column", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (oldPassword != txtConOldPass.Text)
                     {
@@ -582,7 +601,7 @@ namespace XMLReader
                     }
                     else if(txtConNewPass.Text != txtConConPass.Text)
                     {
-                        MessageBox.Show("Password and Confirm Password is diffrent", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("New Password and Confirm Password is different", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -593,9 +612,10 @@ namespace XMLReader
 
                         xdoc.Save(path);
                         bindGrid();
-                        log("[UPDATE] => App setting \n" +
-                               " [OLD] => Name : " + tempName + "\n \tConnection String : " + tempFinalString + "\n \tProvider Name : " + tempProv + "\n" +
-                               " [NEW] => Name : " + txtConName.Text + "\n \tConnection String : " + finalString + "\n \tProvider Name : " + txtConProv.Text);
+                        log("[UPDATE] => Connection Strings \n" +
+                            "====================================================\n" +
+                               " [OLD] => Name : " + tempName + "\n \t  Connection String : " + tempFinalString + "\n \t  Provider Name : " + tempProv + "\n" +
+                               " [NEW] => Name : " + txtConName.Text + "\n \t  Connection String : " + finalString + "\n \t  Provider Name : " + txtConProv.Text);
                         MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     }
@@ -641,7 +661,9 @@ namespace XMLReader
                 MessageBox.Show("Added & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 doc.Save(path);
                 bindGrid();
-                log("[ADDED] Connection Strings \n Name : " + txtConAddName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConAddProv.Text);
+                log("[ADDED] Connection Strings \n" +
+                    "====================================================\n" +
+                    " Name : " + txtConAddName.Text + "\n Connection String : " + finalString + "\n Provider Name : " + txtConAddProv.Text);
                 txtConAddData.Text = "";
                 txtConAddDBFilename.Text = "";
                 txtConAddName.Text = "";
