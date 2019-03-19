@@ -44,7 +44,7 @@ namespace XMLReader
             WindowsIdentity windowsIdentity = new WindowsIdentity(logonToken);
             bool authenticated = true;
 
-            authenticated &= !UserInSystemRole(WindowsBuiltInRole.Administrator);
+            //authenticated &= !UserInSystemRole(WindowsBuiltInRole.Administrator);
             //string username = System.Windows.Forms.SystemInformation.UserName.ToUpper().ToString();
 
 

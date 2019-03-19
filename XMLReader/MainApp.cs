@@ -35,7 +35,7 @@ namespace XMLReader
         string tempData = "", tempSecurity = "", tempDBFilename = "", tempUser = "";
         string tempCatalog = "", tempPersist = "", oldPassword = "";
 
-
+        int i = 1;
         public MainApp()
         {
             InitializeComponent();
@@ -53,12 +53,12 @@ namespace XMLReader
             string logPath = @"D:\XML_Reader\Log\log.txt";
             if (!File.Exists(logPath)){
                 File.Create(logPath).Dispose();
-
+                i = 1;
                 using(TextWriter tw = new StreamWriter(logPath))
                 {
                     tw.WriteLine("LOG");
                     tw.WriteLine("==============");
-                    tw.WriteLine("[USER] => " + username + "\n" + newTime + " " + text);
+                    tw.WriteLine(i + ". [USER] => " + username + "\n" + newTime + " " + text);
                     tw.WriteLine("");
                 }
             }
@@ -66,7 +66,8 @@ namespace XMLReader
             {
                 using (TextWriter tw = new StreamWriter(logPath, true))
                 {
-                    tw.WriteLine("[USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
+                    i++;
+                    tw.WriteLine(i + ". [USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
                     tw.WriteLine("");
                 }
             }
