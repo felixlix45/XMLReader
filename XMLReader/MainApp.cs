@@ -38,6 +38,7 @@ namespace XMLReader
         int i = 1;
         public MainApp()
         {
+
             InitializeComponent();
             this.CenterToScreen();
             tabControl1.Enabled = false;
