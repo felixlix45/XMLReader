@@ -58,9 +58,20 @@ namespace XMLReader
         {
             var time = DateTime.Now;
             string newTime = time.ToString("dd-mm-yyyy, hh:mm:ss");
-            DirectoryInfo di = System.IO.Directory.CreateDirectory("D:\\XML_Reader\\Log");
-            di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            string logPath = @"D:\XML_Reader\Log\log.txt";
+            string logPath = "";
+            if (Directory.Exists("D://"))
+            {
+                DirectoryInfo di = System.IO.Directory.CreateDirectory("D:\\XML_Reader\\Log");
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+                logPath = @"D:\XML_Reader\Log\log.txt";
+            }
+            else
+            {
+                DirectoryInfo di = System.IO.Directory.CreateDirectory("C:\\XML_Reader\\Log");
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+                logPath = @"C:\XML_Reader\Log\log.txt";
+            }
+           
             if (!File.Exists(logPath)){
                 File.Create(logPath).Dispose();
                 using(TextWriter tw = new StreamWriter(logPath))
