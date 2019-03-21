@@ -97,6 +97,9 @@ namespace XMLReader
             if(dialogResult == DialogResult.OK)
             {
                 pbGIF.Visible = false;
+
+
+
             }
             
         }

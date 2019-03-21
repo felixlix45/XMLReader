@@ -13,6 +13,9 @@ using System.IO;
 
 // Magic. Do not touch.
 
+// TODO: disable txtusername when open button clicked
+// TODO: Add logout button
+
 namespace XMLReader
 {
    
@@ -35,7 +38,7 @@ namespace XMLReader
 
         string tempName = "", tempProv = "";
         string tempData = "", tempSecurity = "", tempDBFilename = "", tempUser = "";
-        string tempCatalog = "", tempPersist = "", oldPassword = "";
+        string oldPassword = "";
 
         
         public MainApp()
@@ -45,6 +48,10 @@ namespace XMLReader
             this.CenterToScreen();
             tabControl1.Enabled = false;
             btnRefresh.Enabled = false;
+            btnLogout.Visible = false;
+            btnOpen.Enabled = false;
+            btnSaveAs.Enabled = false;
+            this.lblName.Text = "Name :  " + this.username;
         }
 
         public void log(string text)
@@ -60,7 +67,7 @@ namespace XMLReader
                 {
                     tw.WriteLine("LOG");
                     tw.WriteLine("====================================================");
-                    tw.WriteLine("[USER] => " + username + "\n" + newTime + " " + text);
+                    tw.WriteLine("[USER] => " + txtUsername.Text.ToUpper() + "\n" + newTime + " " + text);
                     tw.WriteLine("\n");
                 }
             }
@@ -69,7 +76,7 @@ namespace XMLReader
                 using (TextWriter tw = new StreamWriter(logPath, true))
                 {
                     tw.WriteLine("====================================================");
-                    tw.WriteLine("[USER] => " + username.ToUpper() + "\n" + newTime + " " +  text);
+                    tw.WriteLine("[USER] => " + txtUsername.Text.ToUpper() + "\n" + newTime + " " +  text);
                     tw.WriteLine("\n");
                 }
             }
@@ -92,16 +99,22 @@ namespace XMLReader
             }
         }
 
-        private void MainApp_Load(object sender, EventArgs e)
-        {
-            this.lblName.Text = "Hello, " + this.username;
-        }
-
         private void BtnLogout_Click(object sender, EventArgs e)
         {
-            this.Close();
-            LoginForm login = new LoginForm();
-            login.Show();
+            //this.Close();
+            //LoginForm login = new LoginForm();
+            //login.Show();
+
+            gvAppSetting.DataSource = null;
+            gvConString.DataSource = null;
+            btnOpen.Enabled = false;
+            tabControl1.Enabled = false;
+            btnRefresh.Enabled = false;
+            txtUsername.Enabled = true;
+            btnLogout.Visible = false;
+            btnLogout.Enabled = false;
+            btnSaveAs.Enabled = false;
+            txtUsername.Text = "";
         }
 
         private void ClearTextBoxes()
@@ -127,6 +140,30 @@ namespace XMLReader
             
         }
 
+        private void LblUsername_TextChanged(object sender, EventArgs e)
+        {
+            if(txtUsername.TextLength > 2)
+            {
+                btnOpen.Enabled = true;
+                
+            }
+            else
+            {
+                btnOpen.Enabled = false;
+               
+            }
+        }
+
+        private void BtnHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("To use this application you must : \n" +
+                "1. Insert your name\n" +
+                "2. Open XML/Config file\n\n" +
+                "Your file is AUTOMATICALLY saved when you click Add, Delete (there is confirmation to delete), or Update button\n\n" +
+                "If you want to save your file into another directory, you can click the Save As button\n\n" +
+                "Once you click Open button, you must logout first to change your name.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void BtnOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFile = new OpenFileDialog
@@ -143,6 +180,10 @@ namespace XMLReader
                 path = openFile.FileName;
                 bindGrid();
                 btnRefresh.Enabled = true;
+                txtUsername.Enabled = false;
+                btnLogout.Visible = true;
+                btnLogout.Enabled = true;
+                btnSaveAs.Enabled = false;
             }
         }
 
@@ -169,6 +210,21 @@ namespace XMLReader
             gvConString.DataSource = query2.ToList();
             gvConString.Columns["connectionString"].Visible = false;
            
+        }
+
+        private void BtnSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "XML File (*.xml)|*.xml | Config FIle (*.config) | *.config";
+            saveFileDialog1.Title = "Save File";
+            saveFileDialog1.InitialDirectory = @"C:/";
+            saveFileDialog1.FilterIndex = 1;
+            saveFileDialog1.DefaultExt = "xml";
+            saveFileDialog1.CheckPathExists = true;
+            if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                xdoc.Save(saveFileDialog1.FileName);
+            }
         }
 
         private void GvAppSetting_CellClick(object sender, DataGridViewCellEventArgs e)

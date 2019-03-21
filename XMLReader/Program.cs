@@ -27,7 +27,7 @@ namespace XMLReader
             private MainApp main = new MainApp();
             public MyApplicationContext()
             {
-                login.Show();
+                main.Show();
             }
         }
     }
