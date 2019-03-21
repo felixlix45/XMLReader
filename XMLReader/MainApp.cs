@@ -57,7 +57,7 @@ namespace XMLReader
         public void log(string text)
         {
             var time = DateTime.Now;
-            string newTime = time.ToString("dd-mm-yyyy, hh:mm:ss");
+            string newTime = time.ToString("dd-MM-yyyy, hh:mm:ss");
             string logPath = "";
             if (Directory.Exists("D://"))
             {
@@ -170,8 +170,8 @@ namespace XMLReader
             MessageBox.Show("To use this application you must : \n" +
                 "1. Insert your name\n" +
                 "2. Open XML/Config file\n\n" +
-                "Your file is AUTOMATICALLY saved when you click Add, Delete (there is confirmation to delete), or Update button\n\n" +
-                "If you want to save your file into another directory, you can click the Save As button\n\n" +
+                "Your file is AUTOMATICALLY saved when you click Add, Delete (there is confirmation to delete), or Update button.\n\n" +
+                "If you want to save your file into another directory, you can click the Save As button.\n\n" +
                 "Once you click Open button, you must logout first to change your name.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
