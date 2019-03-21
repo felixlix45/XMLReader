@@ -51,6 +51,7 @@ namespace XMLReader
             btnLogout.Visible = false;
             btnOpen.Enabled = false;
             btnSaveAs.Enabled = false;
+            pbGIF.Visible = false;
             this.lblName.Text = "Name :  " + this.username;
         }
 
@@ -235,6 +236,16 @@ namespace XMLReader
             if(saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 xdoc.Save(saveFileDialog1.FileName);
+            }
+        }
+
+        private void LblName_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            pbGIF.Visible = true;
+            DialogResult dialogResult = MessageBox.Show("Created by : Felix Andrian Nugroho 19/03/2019", "About", MessageBoxButtons.OK, MessageBoxIcon.None);
+            if (dialogResult == DialogResult.OK)
+            {
+                pbGIF.Visible = false;
             }
         }
 

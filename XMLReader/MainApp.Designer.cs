@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -94,6 +95,7 @@
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.btnHelp = new System.Windows.Forms.Button();
             this.btnSaveAs = new System.Windows.Forms.Button();
+            this.pbGIF = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -105,6 +107,7 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvAppSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvConString)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -120,6 +123,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.pbGIF);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -719,6 +723,7 @@
             this.lblName.Size = new System.Drawing.Size(55, 20);
             this.lblName.TabIndex = 4;
             this.lblName.Text = "Name";
+            this.lblName.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LblName_MouseDoubleClick);
             // 
             // btnLogout
             // 
@@ -768,6 +773,16 @@
             this.btnSaveAs.UseVisualStyleBackColor = true;
             this.btnSaveAs.Click += new System.EventHandler(this.BtnSaveAs_Click);
             // 
+            // pbGIF
+            // 
+            this.pbGIF.Image = ((System.Drawing.Image)(resources.GetObject("pbGIF.Image")));
+            this.pbGIF.Location = new System.Drawing.Point(485, 141);
+            this.pbGIF.Name = "pbGIF";
+            this.pbGIF.Size = new System.Drawing.Size(274, 214);
+            this.pbGIF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbGIF.TabIndex = 5;
+            this.pbGIF.TabStop = false;
+            // 
             // MainApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -802,6 +817,7 @@
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvAppSetting)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvConString)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -875,5 +891,6 @@
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.Button btnSaveAs;
+        private System.Windows.Forms.PictureBox pbGIF;
     }
 }
