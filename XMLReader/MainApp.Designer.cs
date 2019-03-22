@@ -31,9 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pbGIF = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtAppValue = new System.Windows.Forms.RichTextBox();
             this.btnAppDelete = new System.Windows.Forms.Button();
-            this.txtAppValue = new System.Windows.Forms.TextBox();
             this.txtAppKey = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -93,11 +94,11 @@
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.txtUsername = new System.Windows.Forms.TextBox();
-            this.btnHelp = new System.Windows.Forms.Button();
             this.btnSaveAs = new System.Windows.Forms.Button();
-            this.pbGIF = new System.Windows.Forms.PictureBox();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -107,7 +108,6 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvAppSetting)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvConString)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -134,10 +134,20 @@
             this.tabPage1.Text = "App Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // pbGIF
+            // 
+            this.pbGIF.Image = ((System.Drawing.Image)(resources.GetObject("pbGIF.Image")));
+            this.pbGIF.Location = new System.Drawing.Point(485, 141);
+            this.pbGIF.Name = "pbGIF";
+            this.pbGIF.Size = new System.Drawing.Size(274, 214);
+            this.pbGIF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbGIF.TabIndex = 5;
+            this.pbGIF.TabStop = false;
+            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnAppDelete);
             this.groupBox2.Controls.Add(this.txtAppValue);
+            this.groupBox2.Controls.Add(this.btnAppDelete);
             this.groupBox2.Controls.Add(this.txtAppKey);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label4);
@@ -149,6 +159,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Update and Delete";
             // 
+            // txtAppValue
+            // 
+            this.txtAppValue.Location = new System.Drawing.Point(138, 94);
+            this.txtAppValue.Name = "txtAppValue";
+            this.txtAppValue.Size = new System.Drawing.Size(223, 51);
+            this.txtAppValue.TabIndex = 6;
+            this.txtAppValue.Text = "";
+            // 
             // btnAppDelete
             // 
             this.btnAppDelete.Location = new System.Drawing.Point(58, 222);
@@ -159,19 +177,12 @@
             this.btnAppDelete.UseVisualStyleBackColor = true;
             this.btnAppDelete.Click += new System.EventHandler(this.BtnAppDelete_Click);
             // 
-            // txtAppValue
-            // 
-            this.txtAppValue.Location = new System.Drawing.Point(138, 94);
-            this.txtAppValue.Name = "txtAppValue";
-            this.txtAppValue.Size = new System.Drawing.Size(164, 20);
-            this.txtAppValue.TabIndex = 4;
-            // 
             // txtAppKey
             // 
             this.txtAppKey.Location = new System.Drawing.Point(138, 46);
             this.txtAppKey.Name = "txtAppKey";
             this.txtAppKey.ReadOnly = true;
-            this.txtAppKey.Size = new System.Drawing.Size(164, 20);
+            this.txtAppKey.Size = new System.Drawing.Size(223, 20);
             this.txtAppKey.TabIndex = 3;
             // 
             // label3
@@ -753,16 +764,6 @@
             this.txtUsername.TabIndex = 5;
             this.txtUsername.TextChanged += new System.EventHandler(this.LblUsername_TextChanged);
             // 
-            // btnHelp
-            // 
-            this.btnHelp.Location = new System.Drawing.Point(681, 8);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(75, 23);
-            this.btnHelp.TabIndex = 7;
-            this.btnHelp.Text = "Help";
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
-            // 
             // btnSaveAs
             // 
             this.btnSaveAs.Location = new System.Drawing.Point(681, 640);
@@ -773,15 +774,15 @@
             this.btnSaveAs.UseVisualStyleBackColor = true;
             this.btnSaveAs.Click += new System.EventHandler(this.BtnSaveAs_Click);
             // 
-            // pbGIF
+            // btnHelp
             // 
-            this.pbGIF.Image = ((System.Drawing.Image)(resources.GetObject("pbGIF.Image")));
-            this.pbGIF.Location = new System.Drawing.Point(485, 141);
-            this.pbGIF.Name = "pbGIF";
-            this.pbGIF.Size = new System.Drawing.Size(274, 214);
-            this.pbGIF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbGIF.TabIndex = 5;
-            this.pbGIF.TabStop = false;
+            this.btnHelp.Location = new System.Drawing.Point(681, 8);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(75, 23);
+            this.btnHelp.TabIndex = 7;
+            this.btnHelp.Text = "Help";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
             // 
             // MainApp
             // 
@@ -798,10 +799,12 @@
             this.Controls.Add(this.gvConString);
             this.Controls.Add(this.gvAppSetting);
             this.Controls.Add(this.tabControl1);
+            this.KeyPreview = true;
             this.Name = "MainApp";
             this.Text = "MainApp";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -817,7 +820,6 @@
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvAppSetting)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvConString)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbGIF)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -831,7 +833,6 @@
         private System.Windows.Forms.DataGridView gvAppSetting;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnAppDelete;
-        private System.Windows.Forms.TextBox txtAppValue;
         private System.Windows.Forms.TextBox txtAppKey;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -889,8 +890,9 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.Button btnSaveAs;
         private System.Windows.Forms.PictureBox pbGIF;
+        private System.Windows.Forms.RichTextBox txtAppValue;
+        private System.Windows.Forms.Button btnHelp;
     }
 }

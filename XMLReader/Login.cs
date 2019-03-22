@@ -65,7 +65,7 @@ namespace XMLReader
             {
                 MessageBox.Show("Username or Password is wrong!", "INVALID LOGIN", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
-            // I am not sure if we need this, but too scared to delete.
+
             //username = System.DirectoryServices.AccountManagement.UserPrincipal.Current.DisplayName.ToString();
             //if (!authenticated)
             //{

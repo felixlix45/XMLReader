@@ -13,8 +13,8 @@ using System.IO;
 
 // Magic. Do not touch.
 
-// TODO: disable txtusername when open button clicked
-// TODO: Add logout button
+// klik update jangan diilanin
+//save munculin mbox
 
 namespace XMLReader
 {
@@ -29,7 +29,7 @@ namespace XMLReader
         int indexRowConString = 0;
         string tempKey = "";
         string tempValue = "";
-
+        
         int flagConString = 0;
         string finalString = "";
         string dataSource = "", integratedSecurity = "", attachDBFilename = "", userInstance = "";
@@ -149,6 +149,7 @@ namespace XMLReader
         {
             ClearTextBoxes();
             bindGrid();
+            btnOpen.Enabled = true;
             
         }
 
@@ -173,7 +174,8 @@ namespace XMLReader
                 "2. Open XML/Config file\n\n" +
                 "Your file is AUTOMATICALLY saved when you click Add, Delete (there is confirmation to delete), or Update button.\n\n" +
                 "If you want to save your file into another directory, you can click the Save As button.\n\n" +
-                "Once you click Open button, you must logout first to change your name.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                "Once you click Open button, you must logout first to change your name.\n\n" +
+                "Logout button is automatically generated once you open the XML/Config file.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BtnOpen_Click(object sender, EventArgs e)
@@ -195,7 +197,8 @@ namespace XMLReader
                 txtUsername.Enabled = false;
                 btnLogout.Visible = true;
                 btnLogout.Enabled = true;
-                btnSaveAs.Enabled = false;
+                btnSaveAs.Enabled = true;
+
             }
         }
 
@@ -236,13 +239,15 @@ namespace XMLReader
             if(saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 xdoc.Save(saveFileDialog1.FileName);
+                MessageBox.Show("Successfully Saved!", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void LblName_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             pbGIF.Visible = true;
-            DialogResult dialogResult = MessageBox.Show("Created by : Felix Andrian Nugroho 19/03/2019", "About", MessageBoxButtons.OK, MessageBoxIcon.None);
+            DialogResult dialogResult = MessageBox.Show("Congrats, you have found the easter egg!\n\n" +
+                "Created by : Felix Andrian Nugroho 19/03/2019", "About", MessageBoxButtons.OK, MessageBoxIcon.None);
             if (dialogResult == DialogResult.OK)
             {
                 pbGIF.Visible = false;
@@ -662,6 +667,17 @@ namespace XMLReader
                                " [OLD] => Name : " + tempName + "\n \t  Connection String : " + tempFinalString + "\n \t  Provider Name : " + tempProv + "\n" +
                                " [NEW] => Name : " + txtConName.Text + "\n \t  Connection String : " + finalString + "\n \t  Provider Name : " + txtConProv.Text);
                         MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        txtConName.Text = "";
+                        txtConProv.Text = "";
+                        txtConData.Text = "";
+                        txtConSecurity.Text = "";
+                        txtConDBFilename.Text = "";
+                        txtConUser.Text = "";
+                        txtConOldPass.Text = "";
+                        txtConNewPass.Text = "";
+                        txtConConPass.Text = "";
+                        cbConShowOldPass.Checked = false;
+                        flag = 1;
                     }
                 }
                 else
@@ -700,20 +716,20 @@ namespace XMLReader
                                " [OLD] => Name : " + tempName + "\n \t  Connection String : " + tempFinalString + "\n \t  Provider Name : " + tempProv + "\n" +
                                " [NEW] => Name : " + txtConName.Text + "\n \t  Connection String : " + finalString + "\n \t  Provider Name : " + txtConProv.Text);
                         MessageBox.Show("Updated & Saved", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                        txtConName.Text = "";
+                        txtConProv.Text = "";
+                        txtConData.Text = "";
+                        txtConSecurity.Text = "";
+                        txtConDBFilename.Text = "";
+                        txtConUser.Text = "";
+                        txtConOldPass.Text = "";
+                        txtConNewPass.Text = "";
+                        txtConConPass.Text = "";
+                        cbConShowOldPass.Checked = false;
+                        flag = 1;
                     }
                 }
-                txtConName.Text = "";
-                txtConProv.Text = "";
-                txtConData.Text = "";
-                txtConSecurity.Text = "";
-                txtConDBFilename.Text = "";
-                txtConUser.Text = "";
-                txtConOldPass.Text = "";
-                txtConNewPass.Text = "";
-                txtConConPass.Text = "";
-                cbConShowOldPass.Checked = false;
-                flag = 1;
+                
                 
             }
         }
@@ -784,22 +800,8 @@ namespace XMLReader
 
     }
 
-    public static class XElementExtensions
-    {
-        public static DataTable ToDataTable(this XElement element)
-        {
-            DataSet ds = new DataSet();
-            string rawXml = element.ToString();
-            ds.ReadXml(new StringReader(rawXml));
-            return ds.Tables[0];
-        }
+    // I am not sure if we need this, but too scared to delete.
 
-
-        public static DataTable ToDataTable(this IEnumerable<XElement> elements)
-        {
-            return ToDataTable(new XElement("Root", elements));
-        }
-    }
 
 
 }
